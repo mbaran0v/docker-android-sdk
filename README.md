@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/mbaran0v/docker-android-sdk.svg?branch=master)](https://travis-ci.org/mbaran0v/docker-android-sdk)
+
 # docker-android-sdk
 
 Therea are dockerfile for build Andoroid Applications.
