@@ -9,7 +9,8 @@ env:
   - REPO: "mbaranov/android-sdk"
 
 script:
-  - export TAG="$(echo $TRAVIS_BRANCH | sed 's/\//-/g' )-$(TRAVIS_COMMIT::8)"
+  - export SHA="$(echo $TRAVIS_COMMIT | cut -c1-8 )"
+  - export TAG="$(echo $TRAVIS_BRANCH | sed 's/\//-/g' )-${SHA}"
   - docker build -t $REPO:$TAG .
   - docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
   - docker push $REPO:$TAG
@@ -17,7 +18,6 @@ script:
     docker tag $REPO:$TAG $REPO:latest;
     docker push $REPO:latest;
     fi
-  - echo 1
 
 notifications:
   email:
