@@ -38,9 +38,9 @@ RUN curl -fSL https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}
 
 ENV PATH "/home/user/gradle/bin:${ANDROID_HOME}/tools:${ANDROID_HOME}/platform-tools:${PATH}"
 
- # build.gradle compileSdkVersion
+# build.gradle compileSdkVersion
 ENV ANDROID_COMPILE_SDK_VERSION 26
- # build.gradle buildToolsVersion
+# build.gradle buildToolsVersion
 ENV ANDROID_BUILD_TOOLS_VERSION 26.0.1
 
 RUN for item in "android-${ANDROID_COMPILE_SDK_VERSION}" "build-tools-${ANDROID_BUILD_TOOLS_VERSION}" "platform-tools" "extra-android-m2repository"; do \
