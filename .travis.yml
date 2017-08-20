@@ -17,6 +17,7 @@ script:
     docker tag $REPO:$TAG $REPO:latest;
     docker push $REPO:latest;
     fi
+  - echo 1
 
 notifications:
   email:
