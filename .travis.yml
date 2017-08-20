@@ -1,0 +1,23 @@
+sudo: required
+service:
+  - docker
+
+env:
+  global:
+  - secure: "V+gvsHroIthUSSkYL5kJSveK83T6sVE2nWGcPedhGqXgCU1Cpsmm481m40s50V5LvCB+KYM+VnzlXjK1w6jszY6x2g1tMYNuF8erm/63JD/OvvCPwT27WaVeZZJJD8OEK7cgTfmTI3YUFx3vlVAmjrQ02a0F+33GVl3pKb4PHgNXcKwbI/fmUmrVARnrwyoAPqrBA5VtZDf+dDDVjBBygZT+zw5xR8qUMkQx/mJXIVyAOdK3uZf4HqqktkZtzKJQ6klngZ3zXbY2NlN7zm48ImxVLvGquvIvX0uCxAcrhOQpQfHK3aQotaw615gxtqOdy9SdO8L+fm/sRhIcww/ThOufwyGnDN3nmMshOYVnL3DAPggn4JoEuARqMIfMwtb9tjs24X9svUosW154kX25N3Uz1nirpvpB0Jq/TqXu/TOy2hrx/ePP7gqBSn3GgVwPWN2pEyQ3uVvTQkcfzrdgcP9GdIoEMLLm8W6/c0fOBJ/AHyQEQ3SMdgXl/YqDEIwkbu9PtzMOEudHSZc4jFq5S236E34fq36zEtfEkqFSSMImjkwWjG4Qix95mYneiN5ob+Jns4iXbPZb1kA6zPp/rr+6S3Lu9RHHOYsq6h6KolX6kk7SIJc9Nx8GpzUy+AQo9JpII1wNQs10hAvbEejTH7v0p2fdvtCQGsEDMaJS3GE=" #DOCKER_USER
+  - secure: "qVFJlsYtw9SkHy4/15pt/ANkeExd2Fb675D3ZjhxYaR6j0HP85eXEE7pXMZ+iL+tJGt4PrsO191NbcfOThQtl8Rl3vueh6A5acIg7MgIXx0eWOZqEoPbCQS1FQH3JeznB4UHkgkKq93zk+ILa5L2dJJtn4vQyTOKjcPqtyip+t7FYxAl0uTjiLhEDu2LQE9M5i8UCz1p99nG2ZtAWqgLR8UMz7xvwZNp4+6dYPs/RefSgnU+nlWGIi+aJCdhgVGNrUfQDVzheSlMIl1XIxiuru3iU7LhqRKp6QV7MEy70TMR2n63JqFIDjPC4CTw7TwVa0Hw3aWb5DYPXzNyNepcceyM5En5e6enj1l8nLSuZhRM7KUQ3mFqqzEIikiwhnQyzgjhM9aOhHK42nmO2EKdxXXexncSUeqMvSPfiRQiJEA0zmIPWlVnRQk9i4j6xuSBllCf+seaLNkScNDecRWDYBD5pcFDHZ/lF1L9QrF/Cwxl8KVbKGyg1NPv7nkNjaZIXKJLeuYOB6daBeeP+2T1xW9D3haHsF8MffRJf3zQKLhK4aYc//zrc3KoZUKDNZpS0thmB5D5e5osDQHHQmLJ1b37GG7mh/D5iJpRuRhy9Jm3IWL4TafC2k+yT5gNA2sH8wg4qz885KMRri2a3HDQmiBP1+xHtqdQb0inXar/obQ=" #DOCKER_PASSWORD
+  - REPO: "mbaranov/android-sdk"
+
+script:
+  - export TAG="$(echo $TRAVIS_BRANCH | sed 's/\//-/g' )-$(TRAVIS_COMMIT::8)"
+  - docker build -t $REPO:$TAG .
+  - docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+  - docker push $REPO:$TAG
+  - if [ "$TRAVIS_BRANCH" == "master" ]; then
+    docker tag $REPO:$TAG $REPO:latest;
+    docker push $REPO:latest;
+    fi
+
+notifications:
+  email:
+    - maksim.baranov@gmail.com
